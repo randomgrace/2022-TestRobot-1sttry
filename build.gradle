@@ -39,7 +39,14 @@ deploy {
     }
 }
 
+// Set this to true to enable desktop support.
+def includeDesktopSupport = true
 def deployArtifact = deploy.targets.roborio.artifacts.frcJava
+
+// Tell Gradle to check JitPack (in this case, for SpartronicsLib)
+repositories {
+    maven { url 'https://jitpack.io' }
+}
 
 // Set to true to use debug for JNI.
 wpi.java.debugJni = false
@@ -52,6 +59,9 @@ def includeDesktopSupport = false
 dependencies {
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
+
+    // This is how we can use SpartronicsLib without including it in the codebase
+    implementation "com.github.Spartronics4915:SpartronicsLib:master-SNAPSHOT"
 
     roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
     roborioDebug wpi.java.vendor.jniDebug(wpi.platforms.roborio)
